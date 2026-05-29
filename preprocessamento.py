@@ -1,12 +1,10 @@
-import pandas as pd
 from sklearn.pipeline import Pipeline
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.model_selection import train_test_split, StratifiedKFold
 
-COLUNAS_DESCARTAR = ['nameOrig', 'nameDest', 'isFlaggedFraud']
-COLUNA_ALVO = 'isFraud'
+from carregamento import carregar_dados
 
 COLUNAS_NUMERICAS_CONTINUAS = [
     'amount', 'oldbalanceOrg', 'newbalanceOrig',
@@ -19,17 +17,6 @@ COLUNAS_CATEGORICAS = ['type']
 N_FOLDS = 5
 TEST_SIZE = 0.2
 RANDOM_STATE = 42
-
-
-def carregar_dados(caminho='dados/paysim_sample.csv'):
-    df = pd.read_csv(caminho)
-    # descarta identificadores e coluna redundante de fraude
-    df = df.drop(columns=COLUNAS_DESCARTAR)
-    # features
-    X = df.drop(columns=[COLUNA_ALVO])
-    # alvo
-    y = df[COLUNA_ALVO]
-    return X, y
 
 
 def criar_pipeline():
